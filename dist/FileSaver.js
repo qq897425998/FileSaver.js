@@ -10,7 +10,7 @@
     factory();
     global.FileSaver = mod.exports;
   }
-})(this, function () {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function () {
   "use strict";
 
   /*
@@ -88,11 +88,11 @@
   // https://www.whatismybrowser.com/guides/the-latest-user-agent/macos
 
 
-  var isMacOSWebView = /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
+  var isMacOSWebView = _global.navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
   var saveAs = _global.saveAs || ( // probably in some web worker
-  typeof window !== 'object' || window !== _global ? function saveAs() {}
-  /* noop */
-  // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
+  typeof window !== 'object' || window !== _global ? function saveAs() {
+    /* noop */
+  } // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
   : 'download' in HTMLAnchorElement.prototype && !isMacOSWebView ? function saveAs(blob, name, opts) {
     var URL = _global.URL || _global.webkitURL;
     var a = document.createElement('a');
@@ -181,6 +181,8 @@
     }
   });
   _global.saveAs = saveAs.saveAs = saveAs;
+  console.log("123123123123");
+  alert(111111111111111);
 
   if (typeof module !== 'undefined') {
     module.exports = saveAs;
